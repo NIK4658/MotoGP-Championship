@@ -1,0 +1,90 @@
+@startuml EntitiesDB
+!theme plain
+
+
+class Pilota{
+    - id : int
+    - name : string
+    - surname : string
+    - age : int 
+    - team : string
+}
+
+class Costruttore{
+    - id : int
+    - name : string
+    - location : string
+}
+
+class Gommista{
+    - id : int
+    - name : string
+    - surname : string
+    - age : int 
+    - team : string
+}
+
+class Telemetrista{
+    - id : int
+    - name : string
+    - surname : string
+    - age : int 
+    - team : string
+}
+
+class IngegnereMeccanico{
+    - id : int
+    - name : string
+    - surname : string
+    - age : int 
+    - team : string
+}
+
+class Team{
+    - id : int
+    - name : string
+    - constructor : Costruttore
+    - pilot1 : Pilota
+    - pilot2 : Pilota
+    - gommista : Gommista
+    - telemetrista : Telemetrista
+    - ingegnere1 : IngegnereMeccanico
+    - ingegnere2 : IngegnereMeccanico
+    - ingegnere3 : IngegnereMeccanico
+}
+
+class Evento{
+    - id : int
+    - name : string
+    - date : string
+    - Autodromo : Autodromo
+}
+
+class Autodromo{
+    - id : int
+    - name : string
+    - location : string
+    - postiDisponibili : int
+    - curve : int
+    - lunghezza : int
+}
+
+class Spettatore{
+    - id : int
+    - name : string
+    - surname : string
+    - age : int 
+    - fiscalcode : string
+    - biglietto : Biglietto
+}
+
+class Biglietto{
+    - id : int
+    - evento : Evento
+    - spettatore : Spettatore
+    - prezzo : int
+    - numeroPosto : int
+}
+
+
+@enduml
