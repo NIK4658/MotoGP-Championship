@@ -22,9 +22,9 @@ import database.DBConnection;
 import gui.MyGridBagConstraints;
 import database.DBConnection.ComponentType;
 
-public class RegisterFan extends JPanel{
+public class RegisterComponent extends JPanel{
 
-    public RegisterFan(final Dimension dim, final DBConnection con, final ComponentType type, final String[] fields) {
+    public RegisterComponent(final Dimension dim, final DBConnection con, final ComponentType type, final String[] fields) {
         this.setPreferredSize(dim);
         this.setLayout(new BorderLayout());
         JPanel northPanel = new JPanel(new GridBagLayout());
@@ -80,7 +80,7 @@ public class RegisterFan extends JPanel{
             String fcString = components[2].getText();
             String birthString = components[3].getText();
             if(nameString.length()>0 && surnameString.length()>0 && fcString.length()>0 && birthString.length()>0 && fcString.length()==16 && nameString.length()<=20 && surnameString.length()<=20 && con.validDate(birthString)){
-                con.registerComponent(nameString, surnameString, fcString, birthString, ComponentType.SPETTATORI);
+                con.registerComponent(nameString, surnameString, fcString, birthString, type);
                 error.setText("Registrazione completata!");
             } else {
                 error.setText("Registrazione fallita!");
