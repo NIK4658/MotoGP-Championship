@@ -1,5 +1,6 @@
 package start;
 
+import database.DBConnection;
 import gui.MainGui;
 
 /**
@@ -7,6 +8,7 @@ import gui.MainGui;
  */
 public final class ApplicationStart {
     public static void main(final String[] args) {
-        new MainGui();
+        DBConnection con = new DBConnection();
+        new MainGui(con);
     }
 }
