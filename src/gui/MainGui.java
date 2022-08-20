@@ -2,6 +2,9 @@ package gui;
 
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import javax.swing.JFrame;
 //import model.account.AccountManager;
 //import model.account.AdvancedAccountManagerImpl;
@@ -14,11 +17,14 @@ import javax.swing.JFrame;
 //import view.menu.games.Game.Games;
 //import view.menu.games.MergedGame;
 
+import database.DBConnection;
+
 /**
  * The main gui that manages the menu.
  */
 public class MainGui implements MenuManager {
 
+    private final DBConnection con;
     private final JFrame frame;
     private final int widthMenu;
     private final int heightMenu;
@@ -27,7 +33,8 @@ public class MainGui implements MenuManager {
     /**
      * Create the main gui that manages the menu.
      */
-    public MainGui() {
+    public MainGui(DBConnection con) {
+        this.con = con;
         this.frame = new JFrame();
         this.widthMenu =  (Utilities.resize(1.5f)).width;
         this.heightMenu = (Utilities.resize(1.5f)).height;
@@ -51,7 +58,7 @@ public class MainGui implements MenuManager {
 
     @Override
     public void setSpectatorMenu() {
-        this.updateMenu(new SpectatorMenu(this));
+        this.updateMenu(new SpectatorMenu(this, this.con));
     }
 
     @Override
