@@ -2,9 +2,11 @@ package gui;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
-import Operations.RegisterFan;
+import Operations.RegisterComponent;
 import database.DBConnection;
 import database.DBConnection.ComponentType;
 
@@ -61,21 +63,60 @@ public class SpectatorMenu extends JPanel implements Menu{
         menu.setFont(new Font("Arial", Font.PLAIN, frame.getWidthMenu() / 50));
         centerwest.add(menu, BorderLayout.NORTH);
         JPanel listOperations = new JPanel(new GridBagLayout());
+
         JButton viewOps = new JButton("Visualizza Schede");
-        JButton register = new JButton("Registrazione Spettatore");
-        JButton shop = new JButton("Acquisto Biglietto");
+        JButton newTeam = new JButton("Nuovo TEAM");
+        JButton newPil = new JButton("Nuovo Pilota");
+        JButton newTelem = new JButton("Nuovo Telemetrista");
+        JButton newGomm = new JButton("Nuovo Gommista");
+        JButton newIng = new JButton("Nuovo Ingegnere");
+        JButton newCostr = new JButton("Nuovo Costruttore");
+        JButton newAutodr = new JButton("Nuovo Autodromo");
+        JButton newGara = new JButton("Nuova Gara");
+        JButton sostComp = new JButton("Sostituisci Componente");
+        JButton assegnCostr = new JButton("Assegna Costruttore");
+        JButton iscriviTeam = new JButton("Iscrivi Team");
+        JButton newCamp = new JButton("Nuovo Campionato");
+        JButton newGaraCamp = new JButton("<html>Aggiungi Gara ad un </br>Campionato</html>");
+        JButton classifiche = new JButton("Classifiche");
+        JButton storicoTeam = new JButton("Storico Team");
+
+
+        //JButton register = new JButton("Registrazione Spettatore");
+        //JButton shop = new JButton("Acquisto Biglietto");
         list = new ArrayList<JComponent>();
         list.add(viewOps);
-        list.add(register);
-        list.add(shop);
+        list.add(newTeam);
+        list.add(newPil);
+        list.add(newTelem);
+        list.add(newGomm);
+        list.add(newIng);
+        list.add(newCostr);
+        list.add(newAutodr);
+        list.add(newGara);
+        list.add(sostComp);
+        list.add(assegnCostr);
+        list.add(iscriviTeam);
+        list.add(newCamp);
+        list.add(newGaraCamp);
+        list.add(classifiche);
+        list.add(storicoTeam);
+
+        //list.add(register);
+        //list.add(shop);
         int i=0;
         //Formatting side buttons.
         for(JComponent c : list) {
-            c.setPreferredSize(new Dimension(frame.getWidthMenu()/7, frame.getHeightMenu()/15));
+            //c.setMinimumSize(new Dimension(frame.getWidthMenu()/7, frame.getHeightMenu()/15));
+            c.setPreferredSize(new Dimension(frame.getWidthMenu()/5, frame.getHeightMenu()/24));
             c.setFont(new Font("Arial", Font.BOLD, frame.getWidthMenu() / 80));
             listOperations.add(c, new MyGridBagConstraints(0, i, new Insets(0,0,0,0), GridBagConstraints.NONE));
             i++;
         }
+
+        newGaraCamp.setPreferredSize(new Dimension(frame.getWidthMenu()/5, frame.getHeightMenu()/12));
+        newGaraCamp.setHorizontalTextPosition(SwingConstants.CENTER);
+
         listOperations.setPreferredSize(new Dimension(frame.getWidthMenu()/5, frame.getHeightMenu()/2));
         listOperations.setOpaque(false);
         centerwest.setOpaque(false);
@@ -94,28 +135,49 @@ public class SpectatorMenu extends JPanel implements Menu{
         CardPanel.setPreferredSize(this.Paneldimension);
         //Adding database view.
         CardPanel.add(con.FillPane(this.Paneldimension), "Schede");
-
         //Adding register fan page.
         String[] labels = {"Nome", "Cognome", "Codice Fiscale", "Data di Nascita"};
-        CardPanel.add(new RegisterFan(this.Paneldimension, con, ComponentType.SPETTATORI, labels), "Iscrizione");
+        CardPanel.add(new RegisterComponent(this.Paneldimension, con, ComponentType.SPETTATORI, labels), "Spettatori");
+        CardPanel.add(new RegisterComponent(this.Paneldimension, con, ComponentType.PILOTI, labels), "Piloti");
+        CardPanel.add(new RegisterComponent(this.Paneldimension, con, ComponentType.GOMMISTI, labels), "Gommisti");
+        CardPanel.add(new RegisterComponent(this.Paneldimension, con, ComponentType.TELEMETRISTI, labels), "Telemetristi");
+        CardPanel.add(new RegisterComponent(this.Paneldimension, con, ComponentType.INGEGNERI, labels), "Ingegneri");
 
         //Adding Cardlayout to mainpage.
         mainpage.add(CardPanel);
 
         //Switch in database view.
         viewOps.addActionListener( e -> {
+            CardPanel.add(con.FillPane(this.Paneldimension), "Schede");
             card.show(CardPanel, "Schede");
         });
 
-        //Switch in registration view.
-        register.addActionListener( e -> {
-            card.show(CardPanel, "Iscrizione");
+
+        newPil.addActionListener(e ->{
+            card.show(CardPanel, "Piloti");
         });
 
-        //Switch in ticket view.
-        shop.addActionListener( e -> {
-            card.show(CardPanel, "biglietto");
+        newIng.addActionListener(e ->{
+            card.show(CardPanel, "Ingegneri");
         });
+
+        newTelem.addActionListener(e ->{
+            card.show(CardPanel, "Telemetristi");
+        });
+
+        newGomm.addActionListener(e ->{
+            card.show(CardPanel, "Gommisti");
+        });
+
+        //Switch in registration view.
+        //register.addActionListener( e -> {
+        //    card.show(CardPanel, "Spettatori");
+        //});
+
+        //Switch in ticket view.
+        //shop.addActionListener( e -> {
+        //    card.show(CardPanel, "biglietto");
+        //});
 
         //Go to main menu.
         menu.addActionListener( e -> {
