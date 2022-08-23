@@ -1,30 +1,26 @@
 package Operations;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import com.mysql.cj.conf.ConnectionUrl.Type;
-
-import java.awt.Dimension;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.util.ArrayList;
-import java.util.List;
-import java.awt.BorderLayout;
 import database.DBConnection;
-import gui.MyGridBagConstraints;
 import database.DBConnection.ComponentType;
+import gui.MyGridBagConstraints;
 
 public class RegisterComponent extends JPanel{
 
-    public RegisterComponent(final Dimension dim, final DBConnection con, final ComponentType type, final String[] fields) {
+    public RegisterComponent(final Dimension dim, final DBConnection con, final ComponentType type) {
+        String[] fields = {"Nome", "Cognome", "Codice Fiscale", "Data di Nascita"};
         this.setPreferredSize(dim);
         this.setLayout(new BorderLayout());
         JPanel northPanel = new JPanel(new GridBagLayout());
