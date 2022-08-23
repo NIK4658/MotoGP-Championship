@@ -6,7 +6,20 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import Operations.AssegnaComponente;
+import Operations.AssegnaCostruttore;
+import Operations.CampionatoCostruttori;
+import Operations.CampionatoPiloti;
+import Operations.ClassificaGare;
+import Operations.IscriviTeam;
+import Operations.RegisterAutodrome;
+import Operations.RegisterChampionship;
 import Operations.RegisterComponent;
+import Operations.RegisterConstructor;
+import Operations.RegisterRace;
+import Operations.RegisterTeam;
+import Operations.StoricoTeam;
+import Operations.TempoArrivo;
 import database.DBConnection;
 import database.DBConnection.ComponentType;
 
@@ -25,6 +38,7 @@ public class SpectatorMenu extends JPanel implements Menu{
 
     private static final long serialVersionUID = 1L;
     private final MenuManager frame;
+    List<JComponent> list = new ArrayList<JComponent>();
     private final Dimension Paneldimension;
 
     public SpectatorMenu(final MenuManager frame, final DBConnection con) {
@@ -37,7 +51,7 @@ public class SpectatorMenu extends JPanel implements Menu{
         JPanel southPanel = new JPanel();
         JPanel eastPanel = new JPanel();
         JPanel westPanel = new JPanel();
-        List<JComponent> list = new ArrayList<JComponent>();
+        list = new ArrayList<JComponent>();
         list.add(northPanel);
         list.add(southPanel);
         list.add(eastPanel);
@@ -73,12 +87,14 @@ public class SpectatorMenu extends JPanel implements Menu{
         JButton newCostr = new JButton("Nuovo Costruttore");
         JButton newAutodr = new JButton("Nuovo Autodromo");
         JButton newGara = new JButton("Nuova Gara");
-        JButton sostComp = new JButton("Sostituisci Componente");
+        JButton AssegnaComp = new JButton("Assegna Componente");
         JButton assegnCostr = new JButton("Assegna Costruttore");
         JButton iscriviTeam = new JButton("Iscrivi Team");
         JButton newCamp = new JButton("Nuovo Campionato");
-        JButton newGaraCamp = new JButton("<html>Aggiungi Gara ad un </br>Campionato</html>");
-        JButton classifiche = new JButton("Classifiche");
+        JButton newGaraCorsa = new JButton("Registra Tempo di Arrivo");
+        JButton classifiche = new JButton("Classifiche Singole gare");
+        JButton campPiloti = new JButton("Class. Campionato Piloti");
+        JButton campCostruttori = new JButton("Class. Campionato Costruttori");
         JButton storicoTeam = new JButton("Storico Team");
 
 
@@ -94,12 +110,14 @@ public class SpectatorMenu extends JPanel implements Menu{
         list.add(newCostr);
         list.add(newAutodr);
         list.add(newGara);
-        list.add(sostComp);
+        list.add(AssegnaComp);
         list.add(assegnCostr);
         list.add(iscriviTeam);
         list.add(newCamp);
-        list.add(newGaraCamp);
+        list.add(newGaraCorsa);
         list.add(classifiche);
+        list.add(campPiloti);
+        list.add(campCostruttori);
         list.add(storicoTeam);
 
         //list.add(register);
@@ -113,9 +131,6 @@ public class SpectatorMenu extends JPanel implements Menu{
             listOperations.add(c, new MyGridBagConstraints(0, i, new Insets(0,0,0,0), GridBagConstraints.NONE));
             i++;
         }
-
-        newGaraCamp.setPreferredSize(new Dimension(frame.getWidthMenu()/5, frame.getHeightMenu()/12));
-        newGaraCamp.setHorizontalTextPosition(SwingConstants.CENTER);
 
         listOperations.setPreferredSize(new Dimension(frame.getWidthMenu()/5, frame.getHeightMenu()/2));
         listOperations.setOpaque(false);
@@ -136,13 +151,24 @@ public class SpectatorMenu extends JPanel implements Menu{
         //Adding database view.
         CardPanel.add(con.FillPane(this.Paneldimension), "Schede");
         //Adding register fan page.
-        String[] labels = {"Nome", "Cognome", "Codice Fiscale", "Data di Nascita"};
-        CardPanel.add(new RegisterComponent(this.Paneldimension, con, ComponentType.SPETTATORI, labels), "Spettatori");
-        CardPanel.add(new RegisterComponent(this.Paneldimension, con, ComponentType.PILOTI, labels), "Piloti");
-        CardPanel.add(new RegisterComponent(this.Paneldimension, con, ComponentType.GOMMISTI, labels), "Gommisti");
-        CardPanel.add(new RegisterComponent(this.Paneldimension, con, ComponentType.TELEMETRISTI, labels), "Telemetristi");
-        CardPanel.add(new RegisterComponent(this.Paneldimension, con, ComponentType.INGEGNERI, labels), "Ingegneri");
-
+        CardPanel.add(new RegisterComponent(this.Paneldimension, con, ComponentType.SPETTATORI), "Spettatori");
+        CardPanel.add(new RegisterComponent(this.Paneldimension, con, ComponentType.PILOTI), "Piloti");
+        CardPanel.add(new RegisterComponent(this.Paneldimension, con, ComponentType.GOMMISTI), "Gommisti");
+        CardPanel.add(new RegisterComponent(this.Paneldimension, con, ComponentType.TELEMETRISTI), "Telemetristi");
+        CardPanel.add(new RegisterComponent(this.Paneldimension, con, ComponentType.INGEGNERI), "Ingegneri");
+        CardPanel.add(new RegisterTeam(this.Paneldimension, con), "Team");
+        CardPanel.add(new RegisterConstructor(this.Paneldimension, con), "Costruttore");
+        CardPanel.add(new RegisterAutodrome(this.Paneldimension, con), "Autodromo");
+        CardPanel.add(new RegisterChampionship(this.Paneldimension, con), "Campionato");
+        CardPanel.add(new RegisterRace(this.Paneldimension, con), "Gara");
+        CardPanel.add(new IscriviTeam(this.Paneldimension, con), "IscriviTeam");
+        CardPanel.add(new AssegnaCostruttore(this.Paneldimension, con), "AssegnaCostruttori");
+        CardPanel.add(new TempoArrivo(this.Paneldimension, con), "TempoArrivo");
+        CardPanel.add(new ClassificaGare(this.Paneldimension, con), "ClassificaGare");
+        CardPanel.add(new CampionatoPiloti(this.Paneldimension, con), "ClassificaCampionatoPiloti");
+        CardPanel.add(new CampionatoCostruttori(this.Paneldimension, con), "ClassificaCampionatoCostruttori");
+        CardPanel.add(new StoricoTeam(this.Paneldimension, con), "StoricoTeam");
+        viewOps.setEnabled(false);
         //Adding Cardlayout to mainpage.
         mainpage.add(CardPanel);
 
@@ -150,23 +176,111 @@ public class SpectatorMenu extends JPanel implements Menu{
         viewOps.addActionListener( e -> {
             CardPanel.add(con.FillPane(this.Paneldimension), "Schede");
             card.show(CardPanel, "Schede");
+            EnableButtons();
+            viewOps.setEnabled(false);
         });
 
+        storicoTeam.addActionListener( e -> {
+            card.show(CardPanel, "StoricoTeam");
+            EnableButtons();
+            viewOps.setEnabled(false);
+        });
+
+        campCostruttori.addActionListener( e -> {
+            card.show(CardPanel, "ClassificaCampionatoCostruttori");
+            EnableButtons();
+            viewOps.setEnabled(false);
+        });
+
+        campPiloti.addActionListener( e -> {
+            card.show(CardPanel, "ClassificaCampionatoPiloti");
+            EnableButtons();
+            campPiloti.setEnabled(false);
+        });
+
+        newGaraCorsa.addActionListener( e -> {
+            card.show(CardPanel, "TempoArrivo");
+            EnableButtons();
+            newGaraCorsa.setEnabled(false);
+        });
+
+        classifiche.addActionListener( e -> {
+            card.show(CardPanel, "ClassificaGare");
+            EnableButtons();
+            classifiche.setEnabled(false);
+        });
+
+        AssegnaComp.addActionListener( e -> {
+            CardPanel.add(new AssegnaComponente(this.Paneldimension, con), "Assegna Componente");
+            card.show(CardPanel, "Assegna Componente");
+            EnableButtons();
+            AssegnaComp.setEnabled(false);
+        });
+
+        assegnCostr.addActionListener( e -> {
+            card.show(CardPanel, "AssegnaCostruttori");
+            EnableButtons();
+            assegnCostr.setEnabled(false);
+        });
+
+        iscriviTeam.addActionListener( e -> {
+            card.show(CardPanel, "IscriviTeam");
+            EnableButtons();
+            iscriviTeam.setEnabled(false);
+        });
+
+        newGara.addActionListener( e -> {;
+            card.show(CardPanel, "Gara");
+            EnableButtons();
+            newGara.setEnabled(false);
+        });
+
+        newCamp.addActionListener( e -> {
+            card.show(CardPanel, "Campionato");
+            EnableButtons();
+            newCamp.setEnabled(false);
+        });
+
+        newAutodr.addActionListener( e -> {
+            card.show(CardPanel, "Autodromo");
+            EnableButtons();
+            newAutodr.setEnabled(false);
+        });
+
+        newTeam.addActionListener( e -> {
+            card.show(CardPanel, "Team");
+            EnableButtons();
+            newTeam.setEnabled(false);
+        });
+
+        newCostr.addActionListener( e -> {
+            card.show(CardPanel, "Costruttore");
+            EnableButtons();
+            newCostr.setEnabled(false);
+        });
 
         newPil.addActionListener(e ->{
             card.show(CardPanel, "Piloti");
+            EnableButtons();
+            newPil.setEnabled(false);
         });
 
         newIng.addActionListener(e ->{
             card.show(CardPanel, "Ingegneri");
+            EnableButtons();
+            newIng.setEnabled(false);
         });
 
         newTelem.addActionListener(e ->{
             card.show(CardPanel, "Telemetristi");
+            EnableButtons();
+            newTelem.setEnabled(false);
         });
 
         newGomm.addActionListener(e ->{
             card.show(CardPanel, "Gommisti");
+            EnableButtons();
+            newGomm.setEnabled(false);
         });
 
         //Switch in registration view.
@@ -193,5 +307,10 @@ public class SpectatorMenu extends JPanel implements Menu{
         return this;
     }
 
+    public void EnableButtons() {
+        for(JComponent c : this.list) {
+            c.setEnabled(true);
+        }
+    }
 
 }
