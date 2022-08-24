@@ -1,4 +1,5 @@
 bin/
+README.txt
 .DS_Store
 .settings/
 target/
