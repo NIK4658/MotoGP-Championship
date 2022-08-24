@@ -14,7 +14,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import database.DBConnection;
-import database.DBConnection.ComponentType;
 import gui.MyGridBagConstraints;
 
 public class RegisterAutodrome extends JPanel{
@@ -75,8 +74,11 @@ public class RegisterAutodrome extends JPanel{
             String stateString = components[1].getText();
             String numberSeatString = components[2].getText();
             if(nameString.length()>0 && stateString.length()>0 && numberSeatString.length()>0 && numberSeatString.length()<=10 && nameString.length()<=20 && stateString.length()<=20){
-                con.RegisterAutodrome(nameString, stateString, numberSeatString);
-                error.setText("Registrazione completata!");
+                if(con.RegisterAutodrome(nameString, stateString, numberSeatString)){
+                    error.setText("Registrazione completata!");
+                } else {
+                    error.setText("Registrazione fallita!");
+                }
             } else {
                 error.setText("Registrazione fallita!");
             }

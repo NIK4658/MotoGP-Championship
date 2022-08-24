@@ -78,8 +78,11 @@ public class RegisterTeam extends JPanel{
         register.addActionListener((e) -> {
             String nameString = components[0].getText();
             if(nameString.length()>0 && nameString.length()<=20 ){
-                con.registerTeam(nameString);
-                error.setText("Registrazione completata!");
+                if(con.registerTeam(nameString)){
+                    error.setText("Registrazione completata!");
+                } else{
+                    error.setText("Registrazione fallita!");
+                }
             } else {
                 error.setText("Registrazione fallita!");
             }

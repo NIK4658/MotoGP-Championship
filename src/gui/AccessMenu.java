@@ -26,13 +26,10 @@ public class AccessMenu extends JPanel implements Access, Menu {
         this.frame = frame;
         // Zona di destra
         final Dimension dimImg = new Dimension(frame.getWidthMenu() * 2 / 3, frame.getHeightMenu());
-        System.out.println(dimImg);
         final Image img = new ImageIcon("res/img/backgrounds/motogpbg2.png").getImage();
-        //final Image img = Utilities.getImage("img/backgrounds/HQcasinoCroppedWithTitle.gif"); DA RIVEDERE
         final Image imgScaled = img.getScaledInstance(dimImg.width, dimImg.height, Image.SCALE_DEFAULT);
         this.add(new JLabel(new ImageIcon(imgScaled)), BorderLayout.EAST);
         // Zona di sinistra
-        //final Dimension dimAccessPanel = ;
         final AccessPanel accspanel = new AccessPanel(this, new Dimension(frame.getWidthMenu() * 1 / 3, frame.getHeightMenu()));
         this.add(accspanel, BorderLayout.WEST);
         this.setFocusable(true);

@@ -74,8 +74,11 @@ public class RegisterConstructor extends JPanel{
             String nameString = components[0].getText();
             String engineString = components[1].getText();
             if(nameString.length()>0 && engineString.length()>0 && nameString.length()<=20 && engineString.length()<=20){
-                con.RegisterConstructor(nameString, engineString);
-                error.setText("Registrazione completata!");
+                if(con.RegisterConstructor(nameString, engineString)){
+                    error.setText("Registrazione completata!");
+                } else{
+                    error.setText("Registrazione fallita!");
+                }
             } else {
                 error.setText("Registrazione fallita!");
             }

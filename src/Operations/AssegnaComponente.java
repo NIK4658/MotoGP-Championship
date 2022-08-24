@@ -14,9 +14,9 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import database.DBConnection.ComponentType;
 
 import database.DBConnection;
+import database.DBConnection.ComponentType;
 import gui.MyGridBagConstraints;
 
 public class AssegnaComponente extends JPanel{

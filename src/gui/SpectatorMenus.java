@@ -1,49 +1,32 @@
 package gui;
 
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-
-import Operations.AssegnaComponente;
-import Operations.AssegnaCostruttore;
-import Operations.CampionatoCostruttori;
-import Operations.CampionatoPiloti;
-import Operations.ClassificaGare;
-import Operations.GenerateTicket;
-import Operations.IscriviTeam;
-import Operations.RegisterAutodrome;
-import Operations.RegisterChampionship;
-import Operations.RegisterComponent;
-import Operations.RegisterConstructor;
-import Operations.RegisterRace;
-import Operations.RegisterTeam;
-import Operations.StoricoTeam;
-import Operations.TempoArrivo;
-import database.DBConnection;
-import database.DBConnection.ComponentType;
-
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.util.ArrayList;
-import java.util.List;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+
+import Operations.GenerateTicket;
+import Operations.RegisterComponent;
+import database.DBConnection;
+import database.DBConnection.ComponentType;
 
 public class SpectatorMenus extends JPanel implements Menu{
 
     private static final long serialVersionUID = 1L;
-    private final MenuManager frame;
     List<JComponent> list = new ArrayList<JComponent>();
     private final Dimension Paneldimension;
 
     public SpectatorMenus(final MenuManager frame, final DBConnection con) {
-        this.frame = frame;
         this.Paneldimension = new Dimension((int)(frame.getWidthMenu()/1.39),(int)(frame.getHeightMenu()/1.112));
         this.setLayout(new BorderLayout());
         this.setPreferredSize(frame.getSizeMenu());
@@ -82,17 +65,10 @@ public class SpectatorMenus extends JPanel implements Menu{
         JButton viewOps = new JButton("Visualizza Schede");
         JButton newSpett = new JButton("Iscrivi Spettatore");
         JButton newTicket = new JButton("Genera biglietto");
-
-
-        //JButton register = new JButton("Registrazione Spettatore");
-        //JButton shop = new JButton("Acquisto Biglietto");
         list = new ArrayList<JComponent>();
         list.add(viewOps);
         list.add(newSpett);
         list.add(newTicket);
-
-        //list.add(register);
-        //list.add(shop);
         int i=0;
         //Formatting side buttons.
         for(JComponent c : list) {

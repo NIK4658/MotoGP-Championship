@@ -13,16 +13,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
-import javax.print.event.PrintEvent;
-import javax.swing.ComboBoxModel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
-
-import com.mysql.cj.protocol.Resultset;
-import com.mysql.cj.xdevapi.Result;
 
 public class DBConnection {
 
@@ -42,11 +36,6 @@ public class DBConnection {
             String query = "SELECT * FROM piloti";
             this.statement = con.createStatement();
             this.resultSet = this.statement.executeQuery(query);
-
-            while(this.resultSet.next()){
-                System.out.println(this.resultSet.getString("nome"));
-            }
-            
         } catch(SQLException e) {
             e.printStackTrace();
         }
@@ -124,7 +113,13 @@ public class DBConnection {
     }
 
     public boolean registerComponent(String nameString, String surnameString, String fcString, String birthString, ComponentType component) {
-        String query = "INSERT INTO " + component+" (nome, cognome, codiceFiscale, dataNascita) VALUES ('"+nameString+"', '"+surnameString+"', '"+fcString+"', '"+birthString+"')";
+        String query = "";
+        if(component==ComponentType.INGEGNERI){
+            query = "INSERT INTO ingegnerimeccanici (nome, cognome, codiceFiscale, dataNascita) VALUES ('"+nameString+"', '"+surnameString+"', '"+fcString+"', '"+birthString+"')";
+        } else{
+            query = "INSERT INTO " + component+" (nome, cognome, codiceFiscale, dataNascita) VALUES ('"+nameString+"', '"+surnameString+"', '"+fcString+"', '"+birthString+"')";
+        }
+        
         return executeQuery(query);
     }
 
@@ -318,7 +313,6 @@ public class DBConnection {
         String query = "WITH Classifica AS (SELECT corre.TempoGara as 'Tempo', corre.CodicePilota, ROW_NUMBER() OVER ( ORDER BY corre.TempoGara ASC ) AS 'Posizione' FROM corre WHERE corre.CodiceCampionato = "+champ+" AND corre.CodiceAutodromo = "+autodromo+" AND corre.Anno = "+anno+" ) SELECT Classifica.Posizione AS 'Posizione', CASE WHEN Classifica.Posizione = 1 THEN '25' WHEN Classifica.Posizione = 2 THEN '20' WHEN Classifica.Posizione = 3 THEN '16' WHEN Classifica.Posizione = 4 THEN '13' WHEN Classifica.Posizione <=15 THEN 16-Classifica.Posizione ELSE 0 END AS 'Punti', piloti.Nome AS 'Nome', piloti.Cognome AS 'Cognome', Classifica.Tempo AS 'Tempo Gara',  piloti.CodicePilota AS 'Codice Pilota' FROM Classifica INNER JOIN piloti ON piloti.CodicePilota = Classifica.codicePilota ORDER BY Classifica.Posizione ASC";
         try {
             JTabbedPane tabbedPane = new JTabbedPane();
-            //this.getStatement().executeQuery(query);
             ResultSet rs = this.getStatement().executeQuery(query);
             JTable table = new JTable(this.buildTableModel(rs));
             table.setFont(new Font("Arial", Font.PLAIN, (int)dim.getWidth() / 70));
@@ -380,14 +374,12 @@ public class DBConnection {
         String query = "SELECT * FROM piloti";
         try {
             resultSet = this.getStatement().executeQuery(query);
-            int i=1;
             while(resultSet.next()){
                 String id = resultSet.getString("CodicePilota");
                 String nome = resultSet.getString("Nome");
                 String cognome = resultSet.getString("Cognome");
                 int punti = map.get(id);
                 model.addRow(new Object[]{nome, cognome, (int)punti});
-                i++;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -405,12 +397,10 @@ public class DBConnection {
         }
         for (String autodromo : getAutodromoID() ){
             for(String codCostruttore : getCostruttori()){
-                System.out.println(codCostruttore);
                 String query = "WITH Classifica AS ( SELECT corre.TempoGara as 'Tempo', corre.CodicePilota AS 'CodicePilota', costruttori.Nome 'Casa', piloti.Nome AS 'Nome', piloti.Cognome AS 'Cognome', costruttori.Nome 'Costruttore', costruttori.CodiceCostruttore AS 'CodiceCostruttore', ROW_NUMBER() OVER ( ORDER BY corre.TempoGara ASC ) AS 'Posizione' FROM corre INNER JOIN piloti ON piloti.CodicePilota = corre.CodicePilota INNER JOIN aggregazionepiloti ON piloti.CodicePilota = aggregazionepiloti.CodicePilota INNER JOIN team ON aggregazionepiloti.CodiceTeam = team.CodiceTeam INNER JOIN fornitori ON fornitori.CodiceTeam = team.CodiceTeam INNER JOIN costruttori ON fornitori.CodiceCostruttore = costruttori.CodiceCostruttore WHERE corre.CodiceCampionato = "+champ+" AND corre.CodiceAutodromo = "+autodromo+"), elencoArrivi AS ( SELECT Classifica.Posizione AS 'Posizione', CASE WHEN Classifica.Posizione = 1 THEN '25' WHEN Classifica.Posizione = 2 THEN '20' WHEN Classifica.Posizione = 3 THEN '16' WHEN Classifica.Posizione = 4 THEN '13' WHEN Classifica.Posizione <=15 THEN 16-Classifica.Posizione ELSE 0 END AS 'Punti', Classifica.Nome AS 'Nome', Classifica.Cognome AS 'Cognome', Classifica.Tempo AS 'Tempo Gara',  Classifica.CodicePilota AS 'Codice Pilota', Classifica.Casa 'Costruttore', Classifica.CodiceCostruttore AS 'CodiceCostruttore' FROM Classifica ORDER BY Classifica.Posizione ASC ) SELECT DISTINCT elencoarrivi.CodiceCostruttore AS 'CodiceCostruttore', elencoArrivi.Costruttore AS 'Costruttore', (SELECT SUM(punti) FROM elencoArrivi WHERE elencoarrivi.CodiceCostruttore = "+codCostruttore+") AS 'Punti' FROM elencoArrivi WHERE elencoarrivi.CodiceCostruttore = "+codCostruttore;
                 try {
                     resultSet = this.getStatement().executeQuery(query);
                     JTable table = new JTable(this.buildTableModel(resultSet));   
-                    //System.out.println(table.getRowCount());
                     try {
                         if(table.getValueAt(0, 0).toString() != null){ 
                             String id = table.getValueAt(0, 0).toString();
@@ -488,7 +478,6 @@ public class DBConnection {
 
         try {
             JTabbedPane tabbedPane = new JTabbedPane();
-            //this.getStatement().executeQuery(query);
             ResultSet rs = this.getStatement().executeQuery(query);
             JTable table = new JTable(this.buildTableModel(rs));
             table.setFont(new Font("Arial", Font.PLAIN, (int)dim.getWidth() / 70));
@@ -505,7 +494,6 @@ public class DBConnection {
     }
 
     public boolean GenerateTicket(String dateString, String spettString, String autodromeString) {
-        System.out.println(dateString);
         String query = "INSERT INTO biglietti (Data, CodiceSpettatore, CodiceAutodromo) VALUES ( '"+dateString+"', "+spettString+", "+autodromeString+")";
         return this.executeQuery(query);
     }

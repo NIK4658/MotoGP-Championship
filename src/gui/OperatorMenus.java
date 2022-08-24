@@ -1,10 +1,19 @@
 package gui;
 
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 import Operations.AssegnaComponente;
 import Operations.AssegnaCostruttore;
@@ -23,26 +32,13 @@ import Operations.TempoArrivo;
 import database.DBConnection;
 import database.DBConnection.ComponentType;
 
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.util.ArrayList;
-import java.util.List;
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-
 public class OperatorMenus extends JPanel implements Menu{
 
     private static final long serialVersionUID = 1L;
-    private final MenuManager frame;
     List<JComponent> list = new ArrayList<JComponent>();
     private final Dimension Paneldimension;
 
     public OperatorMenus(final MenuManager frame, final DBConnection con) {
-        this.frame = frame;
         this.Paneldimension = new Dimension((int)(frame.getWidthMenu()/1.39),(int)(frame.getHeightMenu()/1.112));
         this.setLayout(new BorderLayout());
         this.setPreferredSize(frame.getSizeMenu());
@@ -97,9 +93,6 @@ public class OperatorMenus extends JPanel implements Menu{
         JButton campCostruttori = new JButton("Class. Campionato Costruttori");
         JButton storicoTeam = new JButton("Storico Team");
 
-
-        //JButton register = new JButton("Registrazione Spettatore");
-        //JButton shop = new JButton("Acquisto Biglietto");
         list = new ArrayList<JComponent>();
         list.add(viewOps);
         list.add(newTeam);
@@ -120,12 +113,9 @@ public class OperatorMenus extends JPanel implements Menu{
         list.add(campCostruttori);
         list.add(storicoTeam);
 
-        //list.add(register);
-        //list.add(shop);
         int i=0;
         //Formatting side buttons.
         for(JComponent c : list) {
-            //c.setMinimumSize(new Dimension(frame.getWidthMenu()/7, frame.getHeightMenu()/15));
             c.setPreferredSize(new Dimension(frame.getWidthMenu()/5, frame.getHeightMenu()/24));
             c.setFont(new Font("Arial", Font.BOLD, frame.getWidthMenu() / 80));
             listOperations.add(c, new MyGridBagConstraints(0, i, new Insets(0,0,0,0), GridBagConstraints.NONE));
@@ -282,16 +272,6 @@ public class OperatorMenus extends JPanel implements Menu{
             EnableButtons();
             newGomm.setEnabled(false);
         });
-
-        //Switch in registration view.
-        //register.addActionListener( e -> {
-        //    card.show(CardPanel, "Spettatori");
-        //});
-
-        //Switch in ticket view.
-        //shop.addActionListener( e -> {
-        //    card.show(CardPanel, "biglietto");
-        //});
 
         //Go to main menu.
         menu.addActionListener( e -> {

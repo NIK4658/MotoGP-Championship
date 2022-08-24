@@ -2,20 +2,8 @@ package gui;
 
 import java.awt.Dimension;
 import java.awt.Frame;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import javax.swing.JFrame;
-//import model.account.AccountManager;
-//import model.account.AdvancedAccountManagerImpl;
-//import view.Utilities;
-//import view.menu.AccessMenu;
-//import view.menu.AccountMenu;
-//import view.menu.GeneralGui;
-//import view.menu.MainMenu;
-//import view.menu.Menu;
-//import view.menu.games.Game.Games;
-//import view.menu.games.MergedGame;
 
 import database.DBConnection;
 
@@ -41,11 +29,8 @@ public class MainGui implements MenuManager {
         this.sizeMenu = new Dimension(this.widthMenu, this.heightMenu);
         this.frame.setSize(this.sizeMenu);
         this.frame.setResizable(false);
-        System.out.println("Width: " + this.widthMenu + " Height: " + this.heightMenu);
-        System.out.println("frame: "+this.frame.getSize());
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.setTitle("MOTOGP CHAMPIONSHIP");
-        //this.frame.setIconImage(Utilities.getImage("img/logo/gdclogo3.png"));
         this.frame.setLocationRelativeTo(null);
         this.setAccessMenu();
         this.frame.setVisible(true);
