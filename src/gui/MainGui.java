@@ -58,12 +58,12 @@ public class MainGui implements MenuManager {
 
     @Override
     public void setSpectatorMenu() {
-        this.updateMenu(new SpectatorMenu(this, this.con));
+        this.updateMenu(new SpectatorMenus(this, this.con));
     }
 
     @Override
     public void setOperatorMenu() {
-        this.updateMenu(new OperatorMenu(this));
+        this.updateMenu(new OperatorMenus(this, this.con));
     }
 
 

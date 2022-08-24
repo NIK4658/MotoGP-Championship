@@ -136,7 +136,7 @@ public class DBConnection {
         if(dateSplit[0].length() != 4 || dateSplit[1].length() != 2 || dateSplit[2].length() != 2){
             return false;
         }
-        if(Integer.parseInt(dateSplit[0]) < 1900 || Integer.parseInt(dateSplit[0]) > 2022){
+        if(Integer.parseInt(dateSplit[0]) < 1900 || Integer.parseInt(dateSplit[0]) > 2030){
             return false;
         }
         if(Integer.parseInt(dateSplit[1]) < 1 || Integer.parseInt(dateSplit[1]) > 12){
@@ -249,7 +249,10 @@ public class DBConnection {
         }else if(selectedType==ComponentType.INGEGNERI){
             query = "SELECT CodiceIngegnere FROM INGEGNERIMECCANICI";
             columnlabel="CodiceIngegnere";
-        }     
+        }else if(selectedType==ComponentType.SPETTATORI){
+            query = "SELECT CodiceSpettatore FROM SPETTATORI";
+            columnlabel="CodiceSpettatore";
+        }
         int i=0;
         try{
             ResultSet rs = this.getStatement().executeQuery(query);
@@ -499,6 +502,12 @@ public class DBConnection {
             e.printStackTrace();
         }
         return new JTabbedPane();
+    }
+
+    public boolean GenerateTicket(String dateString, String spettString, String autodromeString) {
+        System.out.println(dateString);
+        String query = "INSERT INTO biglietti (Data, CodiceSpettatore, CodiceAutodromo) VALUES ( '"+dateString+"', "+spettString+", "+autodromeString+")";
+        return this.executeQuery(query);
     }
 
 }

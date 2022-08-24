@@ -35,7 +35,7 @@ public class CampionatoPiloti extends JPanel{
         eastPanel.setPreferredSize(new Dimension(dim.width/2, dim.height));
         eastPanel.setBackground(Color.white);
         //title
-        JLabel title = new JLabel("Classifiche", SwingConstants.CENTER);
+        JLabel title = new JLabel("PILOTI", SwingConstants.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, dim.width / 15));
         title.setForeground(Color.BLACK);
         westPanel.add(title, new MyGridBagConstraints(0,0,10,1));

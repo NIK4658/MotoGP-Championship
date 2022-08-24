@@ -19,10 +19,10 @@ import database.DBConnection;
 import database.DBConnection.ComponentType;
 import gui.MyGridBagConstraints;
 
-public class TempoArrivo extends JPanel{
+public class GenerateTicket extends JPanel{
 
-    public TempoArrivo(final Dimension dim, final DBConnection con) {
-        String[] fields = {"CodicePilota", "CodiceCampionato", "CodiceAutodromo", "Tempo di Arrivo", "Anno"};
+    public GenerateTicket(final Dimension dim, final DBConnection con) {
+        String[] fields = {"Data", "CodiceSpettatore", "CodiceAutodromo"};
         this.setPreferredSize(dim);
         this.setLayout(new BorderLayout());
         JPanel northPanel = new JPanel(new GridBagLayout());
@@ -35,12 +35,12 @@ public class TempoArrivo extends JPanel{
         southPanel.setBackground(Color.white);
         centerPanel.setBackground(Color.white);
         //title
-        JLabel title = new JLabel("Registrazione TEMPI");
+        JLabel title = new JLabel("Generazione Biglietto");
         title.setFont(new Font("Arial", Font.BOLD, dim.width / 15));
         title.setForeground(Color.BLACK);
         northPanel.add(title);
         //Main label wih text
-        JLabel text = new JLabel("Perfavore riempi i campi sottostanti per registrare un nuovo tempo di arrivo", JLabel.CENTER);
+        JLabel text = new JLabel("Perfavore riempi i campi sottostanti per generare un BIGLIETTO", JLabel.CENTER);
         text.setFont(new Font("Arial", Font.ITALIC, dim.width / 40));
         centerPanel.add(text, new MyGridBagConstraints(0,0,10,1));
         //labels of input
@@ -54,18 +54,17 @@ public class TempoArrivo extends JPanel{
             JLabel label = new JLabel(string, JLabel.CENTER);
             label.setFont(new Font("Arial", Font.PLAIN, dim.width / 40));
             centerPanel.add(label, new MyGridBagConstraints(i,1,1,1));
-            if(i<=2){
-                if(i==0){
-                    textField = new JComboBox<String>(con.getComponentID(ComponentType.PILOTI));
-                }else if(i==1){
-                    textField = new JComboBox<String>(con.getChampID());
-                }else {
+            if(i==1 || i==2){
+                if(i==1){
+                    textField = new JComboBox<String>(con.getComponentID(ComponentType.SPETTATORI));
+                } else {
                     textField = new JComboBox<String>(con.getAutodromoID());
                 }
-            } else {
+                components[i]=textField;
+            }else{
                 textField = new JTextField();
+                components[i]=textField;
             }
-            components[i]=textField;
             textField.setMinimumSize(new Dimension(dim.width/6, dim.height/15));
             textField.setFont(new Font("Arial", Font.PLAIN, dim.width / 40));
             textField.setPreferredSize(new Dimension(dim.width/6, dim.height/15));
@@ -74,7 +73,7 @@ public class TempoArrivo extends JPanel{
             i++;
         }
         //button
-        JButton register = new JButton("Effettua registrazione");
+        JButton register = new JButton("Effettua Registrazione");
         register.setFont(new Font("Arial", Font.PLAIN, dim.width / 40));
         register.setPreferredSize(new Dimension(dim.width/3, dim.height/10));
         JLabel error = new JLabel("", JLabel.CENTER);
@@ -84,14 +83,11 @@ public class TempoArrivo extends JPanel{
         southPanel.add(register, new MyGridBagConstraints(0, 1, new Insets(0,0,0,0), GridBagConstraints.CENTER));
         //button actionlistener
         register.addActionListener((e) -> {
-            String idPilotaString = ((JComboBox<String>)components[0]).getSelectedItem().toString();
-            String idCampionatoString = ((JComboBox<String>)components[1]).getSelectedItem().toString();
-            String idAutodromoString = ((JComboBox<String>)components[2]).getSelectedItem().toString();
-            String tempoString = ((JTextField)components[3]).getText();
-            String annoString = ((JTextField)components[4]).getText();
-
-            if(idPilotaString.length()>0 && tempoString.length()>0 && idCampionatoString.length()>0 && idAutodromoString.length()>0 && annoString.length()>0){
-                if(con.registraTempo(idPilotaString, tempoString, idCampionatoString, idAutodromoString, annoString)){
+            String dateString = ((JTextField)components[0]).getText();
+            String spettString = ((JComboBox<String>)components[1]).getSelectedItem().toString();
+            String AutodromeString = ((JComboBox<String>)components[2]).getSelectedItem().toString();
+            if(spettString.length()>0  && AutodromeString.length()>0 && spettString.length()<=20 && AutodromeString.length()<=20 && con.validDate(dateString)){
+                if(con.GenerateTicket(dateString, spettString, AutodromeString)){
                     error.setText("Registrazione completata!");
                 } else {
                     error.setText("Registrazione fallita!");

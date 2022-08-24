@@ -34,14 +34,14 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 
-public class SpectatorMenu extends JPanel implements Menu{
+public class OperatorMenus extends JPanel implements Menu{
 
     private static final long serialVersionUID = 1L;
     private final MenuManager frame;
     List<JComponent> list = new ArrayList<JComponent>();
     private final Dimension Paneldimension;
 
-    public SpectatorMenu(final MenuManager frame, final DBConnection con) {
+    public OperatorMenus(final MenuManager frame, final DBConnection con) {
         this.frame = frame;
         this.Paneldimension = new Dimension((int)(frame.getWidthMenu()/1.39),(int)(frame.getHeightMenu()/1.112));
         this.setLayout(new BorderLayout());
@@ -183,13 +183,13 @@ public class SpectatorMenu extends JPanel implements Menu{
         storicoTeam.addActionListener( e -> {
             card.show(CardPanel, "StoricoTeam");
             EnableButtons();
-            viewOps.setEnabled(false);
+            storicoTeam.setEnabled(false);
         });
 
         campCostruttori.addActionListener( e -> {
             card.show(CardPanel, "ClassificaCampionatoCostruttori");
             EnableButtons();
-            viewOps.setEnabled(false);
+            campCostruttori.setEnabled(false);
         });
 
         campPiloti.addActionListener( e -> {

@@ -76,8 +76,11 @@ public class RegisterComponent extends JPanel{
             String fcString = components[2].getText();
             String birthString = components[3].getText();
             if(nameString.length()>0 && surnameString.length()>0 && fcString.length()>0 && birthString.length()>0 && fcString.length()==16 && nameString.length()<=20 && surnameString.length()<=20 && con.validDate(birthString)){
-                con.registerComponent(nameString, surnameString, fcString, birthString, type);
-                error.setText("Registrazione completata!");
+                if(con.registerComponent(nameString, surnameString, fcString, birthString, type)){
+                    error.setText("Registrazione completata!");
+                } else{
+                    error.setText("Registrazione fallita!");
+                }
             } else {
                 error.setText("Registrazione fallita!");
             }

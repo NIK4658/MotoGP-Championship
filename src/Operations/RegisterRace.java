@@ -87,6 +87,8 @@ public class RegisterRace extends JPanel{
             String AutodromeString = ((JComboBox<String>)components[2]).getSelectedItem().toString();
             String dateString = ((JTextField)components[3]).getText();
             String NumberLapsString = ((JTextField)components[4]).getText();
+            System.out.println(""+YearString+champString+AutodromeString+dateString+NumberLapsString);
+            System.out.println(con.validDate(dateString));
             if(champString.length()>0 && YearString.length()==4 && AutodromeString.length()>0 && NumberLapsString.length()>0 && NumberLapsString.length()<=16 && champString.length()<=20 && AutodromeString.length()<=20 && con.validDate(dateString)){
                 if(con.registerRace(YearString, champString, AutodromeString, dateString, NumberLapsString)){
                     error.setText("Registrazione completata!");
@@ -94,7 +96,7 @@ public class RegisterRace extends JPanel{
                     error.setText("Registrazione fallita!");
                 }
             } else {
-                error.setText("Registrazione fallita!");
+                error.setText("Registrazione fallita SUBITO!");
             }
         });
         //adding panels to the page
