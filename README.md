@@ -1,6 +1,6 @@
 # **MotoGP-Championship** 🏆
 
-!\[my badge\](https://badgen.net/badge/Status/Completed/green)
+![StatusBadge](https://badgen.net/badge/Status/Completed/green)
 
 ## **University project for the Database Exam**.🎓
 ### The project represents the management of a hypothetical **MotoGP world championship**.
