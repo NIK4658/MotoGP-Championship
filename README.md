@@ -53,8 +53,6 @@ Connection con = DriverManager.getConnection(url, user, password);
 
 ___
 ## ***An Example of a valid database is present in the repository.***
-___
-
 
 
 
